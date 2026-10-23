@@ -1,0 +1,660 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Booking Regret Problem — Product Brief</title>
+  <meta name="description" content="A product brief for an AI-powered Booking Regret Assistant: helping travellers decide whether to keep, switch or wait when they find a cheaper fare after booking.">
+  <meta property="og:title" content="The Booking Regret Problem">
+  <meta property="og:description" content="You book with confidence. Then you find a better deal. Should you rebook?">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%230e6b4c'/><text x='50' y='68' font-size='56' text-anchor='middle'>✈</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="top">
+  <div class="nav-inner container">
+    <a class="brand" href="#top" aria-label="Back to top">
+      <span class="brand-mark"><i data-icon="plane"></i></span>
+      <span>Booking Regret</span>
+    </a>
+    <nav class="nav-links" id="navLinks" aria-label="Sections">
+      <a href="#problem"><span>01</span>Problem</a>
+      <a href="#evidence"><span>02</span>Evidence</a>
+      <a href="#gaps"><span>03</span>Gaps</a>
+      <a href="#idea"><span>04</span>Idea</a>
+      <a href="#business"><span>05</span>Business</a>
+      <a href="#next"><span>06</span>Next</a>
+    </nav>
+    <a class="btn btn-primary btn-sm nav-cta" href="#calculator"><i data-icon="calculator"></i>Try the calculator</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
+  </div>
+  <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+</header>
+
+<main>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-sky" aria-hidden="true">
+    <div class="sun"></div>
+    <svg class="flight-path" viewBox="0 0 1200 500" preserveAspectRatio="xMidYMid slice">
+      <path d="M-50 420 C 250 380, 450 120, 700 150 S 1100 60, 1260 20" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="2 10" stroke-linecap="round"/>
+      <g class="hero-plane">
+        <g transform="rotate(45) scale(1.5) translate(-12 -12)">
+          <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z" fill="#fff" stroke="#0d2b22" stroke-width="1.6" stroke-linejoin="round"/>
+        </g>
+        <animateMotion dur="16s" repeatCount="indefinite" rotate="auto" path="M-50 420 C 250 380, 450 120, 700 150 S 1100 60, 1260 20"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <span class="eyebrow"><span class="dot"></span>Product brief</span>
+      <h1>The Booking<br>Regret Problem</h1>
+      <p class="hero-lead">You book with confidence. Then you find a better deal.</p>
+      <p class="hero-text">You book a flight or hotel, feeling good about the price. Later, you find a cheaper option for the same dates and you're left wondering whether to rebook, wait, or do nothing, once you factor in cancellation fees, refund rules and the total cost.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="#idea">See the idea <i data-icon="arrow"></i></a>
+        <a class="btn btn-ghost" href="#calculator"><i data-icon="calculator"></i>Should I rebook?</a>
+      </div>
+      <dl class="hero-stats">
+        <div><dt><span class="count" data-to="18">0</span>–<span class="count" data-to="35">0</span></dt><dd>Target age group</dd></div>
+        <div><dt><span class="count" data-to="5">0</span>-step</dt><dd>Decision flow</dd></div>
+        <div><dt>≥<span class="count" data-to="90">0</span>%</dt><dd>Price-match target</dd></div>
+      </dl>
+    </div>
+
+    <div class="hero-demo" id="heroDemo" aria-label="Animated example of a booking regret moment">
+      <div class="demo-card demo-current">
+        <span class="demo-icon blue"><i data-icon="plane"></i></span>
+        <div>
+          <small>Your booking</small>
+          <strong>BOM → GOI</strong>
+          <span class="demo-price">₹8,200</span>
+        </div>
+      </div>
+      <svg class="demo-arrow" viewBox="0 0 60 90" aria-hidden="true"><path d="M10 5 C 55 20, 55 65, 15 85" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15 85 l 10 -2 M15 85 l 3 -9" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+      <div class="demo-card demo-cheaper">
+        <span class="demo-icon green"><i data-icon="plane"></i></span>
+        <div>
+          <small>Cheaper fare found!</small>
+          <strong>BOM → GOI</strong>
+          <span class="demo-price">₹5,900</span>
+        </div>
+      </div>
+      <div class="demo-save"><span class="demo-save-text">Save ₹2,300?</span></div>
+      <div class="demo-reality">
+        <div class="reality-row"><span>Fare difference</span><b class="pos">+₹2,300</b></div>
+        <div class="reality-row"><span>Cancellation fee</span><b class="neg">−₹1,500</b></div>
+        <div class="reality-row total"><span>Real saving</span><b>₹800</b></div>
+        <p><i data-icon="alert"></i>Refund takes 5–7 days, and the fare may change before you rebook.</p>
+      </div>
+      <button class="demo-replay" id="heroReplay" aria-label="Replay animation"><i data-icon="refresh"></i>Replay</button>
+    </div>
+  </div>
+
+  <a class="scroll-cue" href="#problem" aria-label="Scroll to section 1"><span></span></a>
+</section>
+
+<!-- ============ 01 PROBLEM ============ -->
+<section class="section" id="problem">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="num">01</span>
+      <div>
+        <h2>The problem and insight</h2>
+        <p>Who it affects, what happens today, and why it's broken</p>
+      </div>
+    </div>
+
+    <div class="grid-4">
+      <article class="card tint-green reveal">
+        <span class="card-icon green"><i data-icon="users"></i></span>
+        <h3>Who</h3>
+        <p class="strong">Leisure travellers and group organisers (18–35 years)</p>
+        <p>People who book flights, hotels and activities, often for trips with friends, family or college groups.</p>
+      </article>
+      <article class="card tint-coral reveal">
+        <span class="card-icon coral"><i data-icon="calendar"></i></span>
+        <h3>What happens today</h3>
+        <p>They book a flight or hotel, then later find a cheaper price for the same dates. They check cancellation policies by hand, compare new prices, work out possible refunds, and discuss options across several platforms and people.</p>
+      </article>
+      <article class="card tint-amber reveal">
+        <span class="card-icon red"><i data-icon="alert"></i></span>
+        <h3>Why it's broken</h3>
+        <ul class="bullets">
+          <li>Policies are hard to interpret and differ across platforms.</li>
+          <li>You have to check several websites and the fine print.</li>
+          <li>The total cost impact (after fees, refunds, etc.) is unclear.</li>
+          <li>Getting a group to agree takes time.</li>
+          <li>It's easy to make the wrong decision and lose money.</li>
+        </ul>
+      </article>
+      <article class="card card-insight reveal">
+        <span class="card-icon amber"><i data-icon="bulb"></i></span>
+        <h3>Key insight</h3>
+        <blockquote>“Travellers don't just want to know if a new price is lower. They want to know <em>if it's actually worth switching, for the entire trip,</em> with clear next steps.”</blockquote>
+      </article>
+    </div>
+
+    <!-- Journey -->
+    <div class="journey reveal" id="journey">
+      <div class="journey-head">
+        <div>
+          <h3>The regret loop</h3>
+          <p>How confidence turns into doubt. Click a stage to see what the traveller is going through.</p>
+        </div>
+        <div class="journey-legend"><span class="lg-hi"></span>Confident <span class="lg-lo"></span>Stressed</div>
+      </div>
+      <div class="journey-chart">
+        <svg viewBox="0 0 1000 160" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="moodGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#12805c" stop-opacity=".22"/>
+              <stop offset="100%" stop-color="#d9534f" stop-opacity=".04"/>
+            </linearGradient>
+          </defs>
+          <path id="moodArea" fill="url(#moodGrad)"/>
+          <path id="moodLine" fill="none" stroke="#0e6b4c" stroke-width="3" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+        </svg>
+        <div class="journey-points" id="journeyPoints"></div>
+      </div>
+      <div class="journey-steps" id="journeySteps" role="tablist"></div>
+      <div class="journey-detail" id="journeyDetail" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 EVIDENCE ============ -->
+<section class="section section-alt" id="evidence">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="num">02</span>
+      <div>
+        <h2>Evidence <span class="pill pill-coral">Research plan, not yet validated</span></h2>
+        <p>Speak to 8–10 travellers (leisure or group trips, aged 18–35) who have experienced booking regret in the last 12 months.</p>
+      </div>
+    </div>
+
+    <div class="grid-3 evidence-grid">
+      <article class="card reveal">
+        <div class="card-top"><span class="card-icon green"><i data-icon="users"></i></span><h3>Who to interview</h3></div>
+        <ul class="persona-list">
+          <li><span class="persona-num">8–10</span><span>travellers (solo or group)</span></li>
+          <li><span class="persona-num">18–35</span><span>years old</span></li>
+          <li><span class="persona-num">12 mo</span><span>booked a flight or hotel and later found a cheaper option</span></li>
+          <li><span class="persona-num">Mix</span><span>of solo travellers and group organisers</span></li>
+        </ul>
+        <div class="split-bar" aria-label="Planned interview mix">
+          <div style="--w:50%" class="sb-a"><span>Solo</span></div>
+          <div style="--w:50%" class="sb-b"><span>Group organisers</span></div>
+        </div>
+      </article>
+
+      <article class="card reveal">
+        <div class="card-top"><span class="card-icon green"><i data-icon="message"></i></span><h3>Key questions to ask</h3></div>
+        <div class="accordion" id="questions">
+          <details open>
+            <summary><span class="q-num">1</span>Tell me about a time you found a cheaper price after booking.</summary>
+            <p><b>Why:</b> Gets a real, specific story instead of opinions. It shows how often this happens and what triggers it.</p>
+          </details>
+          <details>
+            <summary><span class="q-num">2</span>What did you do next?</summary>
+            <p><b>Why:</b> Reveals the current workaround (kept it, rebooked, asked friends, gave up) and how much effort it took.</p>
+          </details>
+          <details>
+            <summary><span class="q-num">3</span>What was the most difficult part of deciding whether to rebook?</summary>
+            <p><b>Why:</b> Pinpoints the sharpest pain: policy wording, fee maths, timing or group alignment.</p>
+          </details>
+          <details>
+            <summary><span class="q-num">4</span>Which tools or platforms did you use?</summary>
+            <p><b>Why:</b> Maps the competitive landscape and where each tool falls short.</p>
+          </details>
+          <details>
+            <summary><span class="q-num">5</span>What would have made this decision easier or more trustworthy?</summary>
+            <p><b>Why:</b> Surfaces the trust signals and features people would actually value.</p>
+          </details>
+        </div>
+      </article>
+
+      <article class="card reveal">
+        <div class="card-top"><span class="card-icon green"><i data-icon="clipboard"></i></span><h3>Evidence to capture</h3></div>
+        <p class="hint">Use this as an interview checklist. Your ticks are saved in this browser.</p>
+        <div class="tracker-progress"><div class="tp-bar"><div id="tpFill"></div></div><span id="tpLabel">0 / 5</span></div>
+        <ul class="checklist" id="checklist">
+          <li><label><input type="checkbox" data-key="ev1"><span class="box"></span><span>How often booking regret happens, and in what situations (flights, hotels, activities)</span></label></li>
+          <li><label><input type="checkbox" data-key="ev2"><span class="box"></span><span>What factors people weigh (cancellation fees, refund amount, fare difference, group impact, timing)</span></label></li>
+          <li><label><input type="checkbox" data-key="ev3"><span class="box"></span><span>Which tools they use and what's missing</span></label></li>
+          <li><label><input type="checkbox" data-key="ev4"><span class="box"></span><span>How they currently make the final decision</span></label></li>
+          <li><label><input type="checkbox" data-key="ev5"><span class="box"></span><span>What would make them more confident to rebook</span></label></li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 GAPS ============ -->
+<section class="section" id="gaps">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="num">03</span>
+      <div>
+        <h2>Why existing tools miss it</h2>
+        <p>WhatsApp, Splitwise, booking platforms and price-comparison sites each <em>help with part of the problem</em>, but none gives a complete, group-level decision.</p>
+      </div>
+    </div>
+
+    <div class="matrix-card reveal">
+      <div class="matrix-toolbar">
+        <div class="legend">
+          <span><i class="mk mk-y"><i data-icon="check"></i></i>Does this well</span>
+          <span><i class="mk mk-p"><i data-icon="minus"></i></i>Partially</span>
+          <span><i class="mk mk-n"><i data-icon="x"></i></i>Doesn't</span>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="matrixToggle">
+          <span class="switch-track"><span class="switch-thumb"></span></span>
+          <span>Compare with the proposed assistant</span>
+        </label>
+      </div>
+      <div class="matrix-scroll">
+        <table class="matrix" id="matrix"></table>
+      </div>
+      <p class="matrix-foot" id="matrixFoot">Hover over or tap a cell to see why.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 04 IDEA ============ -->
+<section class="section section-alt" id="idea">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="num">04</span>
+      <div>
+        <h2>The idea: an AI-powered Booking Regret Assistant</h2>
+        <p>A decision assistant for travellers who find a cheaper fare after booking. It connects your existing booking, analyses the full financial and policy impact, and helps you decide whether to keep, switch or wait.</p>
+      </div>
+    </div>
+
+    <div class="flow reveal" id="flow">
+      <ol class="flow-steps" id="flowSteps">
+        <li><button data-step="0" class="active">
+          <span class="fs-num">1</span>
+          <span class="fs-body"><b>Connect existing booking</b><small>Import your flight or hotel booking from a confirmation email or PNR, or enter the details yourself.</small></span>
+          <span class="fs-bar"></span>
+        </button></li>
+        <li><button data-step="1">
+          <span class="fs-num">2</span>
+          <span class="fs-body"><b>Add the cheaper alternative</b><small>Search for or add a cheaper flight or hotel for the same itinerary.</small></span>
+          <span class="fs-bar"></span>
+        </button></li>
+        <li><button data-step="2">
+          <span class="fs-num">3</span>
+          <span class="fs-body"><b>Verify policy, refund &amp; availability</b><small>Check cancellation rules, the refund timeline, change fees and current availability.</small></span>
+          <span class="fs-bar"></span>
+        </button></li>
+        <li><button data-step="3">
+          <span class="fs-num">4</span>
+          <span class="fs-body"><b>Compare true net cost</b><small>AI works out the total financial impact: fare difference, cancellation fees, refund timelines and risks.</small></span>
+          <span class="fs-bar"></span>
+        </button></li>
+        <li><button data-step="4">
+          <span class="fs-num">5</span>
+          <span class="fs-body"><b>Choose keep, switch or wait</b><small>Get a clear recommendation with pros, cons and next steps, then rebook when you're confident.</small></span>
+          <span class="fs-bar"></span>
+        </button></li>
+      </ol>
+
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-status"><span>18:31</span><span class="ps-icons"><i></i><i></i><i></i></span></div>
+          <div class="screens" id="screens">
+
+            <div class="screen active">
+              <div class="scr-head"><span class="back">‹</span>My existing booking</div>
+              <div class="scr-card">
+                <div class="route"><span class="route-ic blue"><i data-icon="plane"></i></span><div><b>Delhi → Goa</b><small>Fri, 16 May · 1 traveller</small><small>IndiGo · 6E 5314</small></div></div>
+                <span class="chip chip-green">Confirmed</span>
+                <div class="scr-kv"><small>Booking reference</small><b>PNR123456</b></div>
+                <div class="scr-price">₹8,400 <small>per person</small></div>
+              </div>
+              <button class="scr-btn" data-goto="1">Add to analysis</button>
+            </div>
+
+            <div class="screen">
+              <div class="scr-head"><span class="back">‹</span>Alternative option</div>
+              <div class="scr-card">
+                <div class="route"><span class="route-ic red"><i data-icon="plane"></i></span><div><b>Delhi → Goa</b><small>Fri, 16 May · 1 traveller</small><small>Air India · AI 887</small></div></div>
+                <div class="chips"><span class="chip chip-green">Cheaper fare</span><span class="chip chip-green">Same time</span></div>
+                <div class="scr-price">₹6,900 <small>per person</small></div>
+                <button class="scr-btn ghost">View details</button>
+              </div>
+              <div class="scr-add"><span>+</span>Add another option</div>
+            </div>
+
+            <div class="screen">
+              <div class="scr-head"><span class="back">‹</span>Policy and refund check</div>
+              <div class="scr-card">
+                <b class="scr-sub">Your current booking</b>
+                <div class="scr-row"><span><i data-icon="clock"></i>Cancellation fee</span><b>₹2,000 per person</b></div>
+                <div class="scr-row"><span><i data-icon="clock"></i>Refund timeline</span><b>5–7 business days</b></div>
+                <div class="scr-row"><span><i data-icon="clock"></i>Fare type</span><b>Partially refundable</b></div>
+                <a class="scr-link">View full policy →</a>
+              </div>
+              <div class="scr-note amber"><i data-icon="alert"></i>Policy details are taken from the booking confirmation. Please check them on the airline's website before going ahead.</div>
+            </div>
+
+            <div class="screen">
+              <div class="scr-head"><span class="back">‹</span>AI analysis</div>
+              <div class="scr-card tint">
+                <small>Potential saving (before fees)</small>
+                <div class="scr-big">₹1,500</div>
+                <small>per person</small>
+              </div>
+              <div class="scr-card">
+                <div class="scr-cols"><div><small>Current booking</small><b>₹8,400</b></div><div><small>Alternative fare</small><b>₹6,900</b></div></div>
+                <div class="scr-row"><span>Cancellation fee (est.)</span><b class="neg-pill">−₹2,000</b></div>
+                <div class="scr-row"><span>Expected refund</span><b>Unknown ⓘ</b></div>
+                <div class="scr-row"><span>Net saving (est.)</span><b class="warn-pill">Unknown</b></div>
+                <div class="scr-row"><span>Price last checked</span><b class="live"><i></i>Just now</b></div>
+              </div>
+            </div>
+
+            <div class="screen">
+              <div class="scr-head"><span class="back">‹</span>Recommendation</div>
+              <div class="scr-note amber big"><i data-icon="triangle"></i><div><b>Verify refund and fees before cancelling.</b><p>The alternative fare is cheaper, but your net saving depends on the refund amount and cancellation fee. We recommend checking the policy on the airline's website before going ahead.</p></div></div>
+              <div class="scr-options">
+                <div><i data-icon="plane"></i>Keep current booking<span>›</span></div>
+                <div><i data-icon="refresh"></i>Proceed to rebook<span>›</span></div>
+                <div><i data-icon="clock"></i>Wait and monitor fares<span>›</span></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="flow-controls">
+          <button class="icon-btn" id="flowPrev" aria-label="Previous step"><i data-icon="chevL"></i></button>
+          <button class="icon-btn play" id="flowPlay" aria-label="Pause autoplay"><i data-icon="pause"></i></button>
+          <button class="icon-btn" id="flowNext" aria-label="Next step"><i data-icon="chevR"></i></button>
+        </div>
+      </div>
+
+      <aside class="trust">
+        <span class="trust-bot"><i data-icon="bot"></i></span>
+        <h3>Prices and policies must be refreshed from verified sources.</h3>
+        <p>Fares and availability can change at any time. The AI shows the latest information it can find and clearly flags uncertainty. Always check details with the airline or hotel before making a decision.</p>
+        <ul>
+          <li><i data-icon="shield"></i>Show confidence labels (e.g. verified, uncertain)</li>
+          <li><i data-icon="refresh"></i>Clearly flag when prices may have changed</li>
+          <li><i data-icon="alert"></i>Never treat a saving as guaranteed</li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CALCULATOR ============ -->
+<section class="section" id="calculator">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="num num-accent"><i data-icon="calculator"></i></span>
+      <div>
+        <h2>Try it: is switching actually worth it?</h2>
+        <p>An interactive prototype of the assistant's decision logic. Change the numbers and watch the recommendation update. <em>Illustrative only, not live fares.</em></p>
+      </div>
+    </div>
+
+    <div class="calc reveal">
+      <form class="calc-form" id="calcForm" onsubmit="return false">
+        <div class="presets" role="group" aria-label="Example scenarios">
+          <span>Try an example:</span>
+          <button type="button" class="chip-btn active" data-preset="brief">Delhi → Goa</button>
+          <button type="button" class="chip-btn" data-preset="group">Group trip of 6</button>
+          <button type="button" class="chip-btn" data-preset="hotel">Non-refundable hotel</button>
+          <button type="button" class="chip-btn" data-preset="win">Big price drop</button>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="fCur">Current booking <small>per person</small></label>
+            <div class="money"><span>₹</span><input id="fCur" type="number" min="0" step="100" inputmode="numeric"></div>
+          </div>
+          <div class="field">
+            <label for="fAlt">Cheaper alternative <small>per person</small></label>
+            <div class="money"><span>₹</span><input id="fAlt" type="number" min="0" step="100" inputmode="numeric"></div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="fFee">Cancellation fee <small>per person</small> <output id="oFee"></output></label>
+          <input id="fFee" type="range" min="0" max="6000" step="100">
+        </div>
+
+        <div class="field">
+          <label>Refund policy</label>
+          <div class="seg" data-name="policy">
+            <button type="button" data-v="refundable">Refundable minus fee</button>
+            <button type="button" data-v="nonref">Non-refundable</button>
+            <button type="button" data-v="unknown">Not sure</button>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label>Travellers</label>
+            <div class="stepper">
+              <button type="button" id="tMinus" aria-label="Fewer travellers">−</button>
+              <output id="oTrav">1</output>
+              <button type="button" id="tPlus" aria-label="More travellers">+</button>
+            </div>
+          </div>
+          <div class="field">
+            <label>Price last checked</label>
+            <div class="seg" data-name="fresh">
+              <button type="button" data-v="now">Just now</button>
+              <button type="button" data-v="30">30 min</button>
+              <button type="button" data-v="120">2 h+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="fMin">Smallest saving worth the hassle <small>per person</small> <output id="oMin"></output></label>
+          <input id="fMin" type="range" min="0" max="3000" step="100">
+        </div>
+      </form>
+
+      <div class="calc-out" id="calcOut" aria-live="polite">
+        <div class="verdict" id="verdict">
+          <div class="verdict-top">
+            <span class="verdict-label" id="vLabel">Keep</span>
+            <span class="conf" id="vConf">Verified · just now</span>
+          </div>
+          <h3 id="vTitle">Keep your current booking</h3>
+          <p id="vText"></p>
+        </div>
+
+        <div class="breakdown">
+          <h4>Per-person breakdown</h4>
+          <div id="bdRows"></div>
+          <div class="bd-total"><span>Net saving per person</span><b id="bdNet">₹0</b></div>
+        </div>
+
+        <div class="group-impact">
+          <div>
+            <h4>Whole-trip impact</h4>
+            <p id="giText"></p>
+          </div>
+          <div class="avatars" id="avatars"></div>
+        </div>
+
+        <div class="nextsteps">
+          <h4>Next steps</h4>
+          <ol id="nsList"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 05 BUSINESS ============ -->
+<section class="section section-alt" id="business">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="num">05</span>
+      <div>
+        <h2>Who pays and why</h2>
+        <p>Who pays, how much, and why they would pay <span class="pill pill-amber">Hypothesis to validate</span></p>
+      </div>
+    </div>
+
+    <div class="biz-grid">
+      <article class="card reveal">
+        <span class="card-icon green"><i data-icon="building"></i></span>
+        <h3>Primary payer: travel platform / booking partner</h3>
+        <p>Online travel platforms can offer this feature to improve user confidence, increase conversions and drive higher retention.</p>
+        <div class="value-chain">
+          <span>Traveller confidence</span><i data-icon="arrow"></i><span>Rebooks on-platform</span><i data-icon="arrow"></i><span>Retention</span>
+        </div>
+      </article>
+      <article class="card tint-amber reveal">
+        <span class="card-icon amber"><i data-icon="coins"></i></span>
+        <h3>Potential model <small>(hypothesis)</small></h3>
+        <ul class="bullets">
+          <li>Platform-funded feature built into the existing booking experience.</li>
+          <li>Optional premium features (e.g. proactive price alerts), only if users show they're willing to pay.</li>
+          <li>Exact pricing and model to be decided through further research.</li>
+        </ul>
+      </article>
+      <article class="card reveal">
+        <span class="card-icon green"><i data-icon="heart"></i></span>
+        <h3>Why users value it</h3>
+        <ul class="ticks">
+          <li><i data-icon="check"></i>Saves the time and effort of comparing options and reading policy terms by hand.</li>
+          <li><i data-icon="check"></i>Shows the true net saving after fees and refunds.</li>
+          <li><i data-icon="check"></i>Reduces the risk of a costly mistake.</li>
+          <li><i data-icon="check"></i>Gives clarity and confidence about the next best action.</li>
+        </ul>
+      </article>
+      <article class="card tint-coral status-card reveal">
+        <span class="card-icon coral"><i data-icon="search"></i></span>
+        <h3>Evidence status: <span class="coral-text">Research pending</span></h3>
+        <p>Willingness to pay, the preferred pricing model and what drives adoption still need to be validated through user research and experiments.</p>
+        <div class="status-meter"><span style="--w:15%"></span></div>
+        <small class="muted">Validation progress: early stage</small>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 06 NEXT ============ -->
+<section class="section" id="next">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="num">06</span>
+      <div>
+        <h2>What I'd test next</h2>
+        <p>The riskiest assumption, how I'll test it, and what success looks like</p>
+      </div>
+    </div>
+
+    <div class="risk-grid">
+      <article class="card risk reveal">
+        <span class="card-icon red solid"><i data-icon="triangle"></i></span>
+        <span class="kicker">Riskiest assumption</span>
+        <h3>Prices and availability may change between analysis and checkout, making the recommendation stale and the expected saving disappear.</h3>
+        <p>Even if the AI finds a cheaper option, the fare may rise or become unavailable by the time the user tries to rebook. That would make for a poor experience and lose their trust.</p>
+      </article>
+      <article class="card reveal">
+        <div class="card-top"><span class="card-icon green"><i data-icon="flask"></i></span><h3>Test plan</h3></div>
+        <ol class="numbered">
+          <li>Run 20–30 repeated fare checks across a small set of routes, airlines and time intervals (e.g. every 30–60 mins).</li>
+          <li>Compare the displayed fare with the actual fare at checkout.</li>
+          <li>Record price freshness, recommendation accuracy and how often savings persist.</li>
+          <li>Test how the product handles price changes, unavailable fares and policy updates (e.g. clear alerts and alternative options).</li>
+        </ol>
+      </article>
+    </div>
+
+    <!-- Simulator -->
+    <div class="sim reveal" id="sim">
+      <div class="sim-head">
+        <div>
+          <h3>Fare drift simulator</h3>
+          <p>A simulated version of the test plan: 20 repeated checks of a ₹5,900 fare against a ₹8,200 booking with a ₹1,500 fee. Any fare below the break-even line still saves money. <em>Random data, for illustration only.</em></p>
+        </div>
+        <div class="sim-controls">
+          <div class="seg seg-sm" data-name="vol">
+            <button type="button" data-v="low">Calm</button>
+            <button type="button" data-v="med" class="active">Typical</button>
+            <button type="button" data-v="high">Volatile</button>
+          </div>
+          <button class="btn btn-primary btn-sm" id="simRun"><i data-icon="play"></i>Run 20 checks</button>
+        </div>
+      </div>
+      <div class="sim-body">
+        <div class="sim-chart"><svg id="simSvg" viewBox="0 0 800 280" role="img" aria-label="Simulated fare over 20 checks"></svg></div>
+        <div class="sim-stats">
+          <div class="stat"><span class="stat-num" id="sPersist">–</span><span class="stat-lbl">checks where the saving held</span></div>
+          <div class="stat"><span class="stat-num" id="sFinal">–</span><span class="stat-lbl">saving at the final check</span></div>
+          <div class="stat"><span class="stat-num" id="sUnavail">–</span><span class="stat-lbl">checks where the fare was unavailable</span></div>
+          <p class="sim-insight" id="sInsight"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="success-grid">
+      <article class="card reveal">
+        <div class="card-top"><span class="card-icon green"><i data-icon="chart"></i></span><h3>Success criteria <small>(proposed targets)</small></h3></div>
+        <div class="kpis">
+          <div class="kpi">
+            <svg class="ring" viewBox="0 0 80 80"><circle cx="40" cy="40" r="34"/><circle class="ring-val" cx="40" cy="40" r="34" style="--p:90"/></svg>
+            <div><b>≥90%</b><span>of displayed prices match verified provider prices at the time of check</span></div>
+          </div>
+          <div class="kpi">
+            <svg class="ring" viewBox="0 0 80 80"><circle cx="40" cy="40" r="34"/><circle class="ring-val" cx="40" cy="40" r="34" style="--p:100"/></svg>
+            <div><b>100%</b><span>of stale or unknown prices are clearly flagged in the recommendation</span></div>
+          </div>
+          <div class="kpi">
+            <svg class="ring zero" viewBox="0 0 80 80"><circle cx="40" cy="40" r="34"/><circle class="ring-val" cx="40" cy="40" r="34" style="--p:100"/></svg>
+            <div><b>0</b><span>recommendations treat an unverified saving as guaranteed</span></div>
+          </div>
+          <div class="kpi">
+            <svg class="ring" viewBox="0 0 80 80"><circle cx="40" cy="40" r="34"/><circle class="ring-val" cx="40" cy="40" r="34" style="--p:100"/></svg>
+            <div><b>100%</b><span>of price-change or sold-out cases come with clear next steps</span></div>
+          </div>
+        </div>
+      </article>
+      <article class="card reveal">
+        <div class="card-top"><span class="card-icon green"><i data-icon="clipboard"></i></span><h3>Next</h3></div>
+        <ol class="timeline">
+          <li><span class="tl-dot">1</span><div><b>Discovery interviews</b><p>Run 8–10 traveller interviews to understand how people decide and what worries them.</p></div></li>
+          <li><span class="tl-dot">2</span><div><b>Usability tests</b><p>Run 5 usability tests with the prototype to validate the flow and messaging.</p></div></li>
+          <li><span class="tl-dot">3</span><div><b>Live-data pilot</b><p>Explore a limited live-data pilot with a partner platform (if feasible) to test price freshness and recommendation accuracy.</p></div></li>
+        </ol>
+      </article>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="brand"><span class="brand-mark"><i data-icon="plane"></i></span><span>The Booking Regret Problem</span></div>
+    <p>Product brief. Prototype screens, calculator and simulation are illustrative. User research is pending.</p>
+    <a href="#top" class="btn btn-ghost btn-sm">Back to top ↑</a>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
