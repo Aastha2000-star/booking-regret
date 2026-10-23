@@ -46,18 +46,66 @@
               <button data-imp="pnr">PNR</button>
               <button data-imp="manual">Manual</button>
             </div>
-            <div class="card booking">
-              <div class="route">
-                <span class="air blue"><i data-icon="plane"></i></span>
-                <div><b>Delhi → Goa</b><small>Fri, 16 May · 1 traveller</small><small>IndiGo · 6E 5314 · 07:05 → 09:40</small></div>
+
+            <!-- Email -->
+            <div class="panel active" data-panel="email"><div class="result" id="resEmail"></div></div>
+
+            <!-- PNR / PDF -->
+            <div class="panel" data-panel="pnr">
+              <div class="pnr-input" id="pnrInput">
+                <form class="card form" id="pnrForm" novalidate>
+                  <b class="sub">Find your booking with a PNR</b>
+                  <label class="fld"><span>PNR / booking reference</span>
+                    <input id="pnrCode" maxlength="6" placeholder="e.g. K9TZ4P" autocomplete="off" autocapitalize="characters" spellcheck="false"></label>
+                  <label class="fld"><span>Last name</span>
+                    <input id="pnrName" placeholder="As on the ticket" autocomplete="family-name"></label>
+                  <p class="err" id="pnrErr"></p>
+                  <button class="btn primary sm" type="submit" id="pnrFetch">Fetch booking</button>
+                </form>
+                <div class="or"><span>or</span></div>
+                <label class="drop" id="drop">
+                  <input type="file" id="pdfFile" accept="application/pdf,.pdf">
+                  <span class="drop-ic"><i data-icon="upload"></i></span>
+                  <b>Upload confirmation PDF</b>
+                  <small>Tap to choose a file, or drag it here</small>
+                </label>
+                <p class="err center" id="pdfErr"></p>
               </div>
-              <span class="chip green">Confirmed</span>
-              <div class="kv"><small>Booking reference</small><b>PNR123456</b></div>
-              <div class="price"><b>₹8,400</b> <small>per person</small></div>
+              <div class="loading" id="pnrLoading"><div class="spinner"></div><span id="pnrLoadingText">Fetching booking…</span></div>
+              <div class="result" id="resPnr"></div>
             </div>
-            <p class="source" id="impSource"><i data-icon="mail"></i>Imported from your confirmation email</p>
+
+            <!-- Manual -->
+            <div class="panel" data-panel="manual">
+              <form class="card form" id="manualForm" novalidate>
+                <b class="sub">Enter booking details</b>
+                <div class="two">
+                  <label class="fld"><span>From</span><input name="from" list="cities" placeholder="Delhi" required></label>
+                  <label class="fld"><span>To</span><input name="to" list="cities" placeholder="Goa" required></label>
+                </div>
+                <label class="fld"><span>Travel date</span><input name="date" type="date" required></label>
+                <div class="two">
+                  <label class="fld"><span>Airline</span><input name="airline" list="airlines" placeholder="IndiGo" required></label>
+                  <label class="fld"><span>Flight no.</span><input name="code" placeholder="6E 5314"></label>
+                </div>
+                <div class="two">
+                  <label class="fld"><span>Departs</span><input name="dep" type="time"></label>
+                  <label class="fld"><span>Arrives</span><input name="arr" type="time"></label>
+                </div>
+                <div class="two">
+                  <label class="fld"><span>Fare per person (₹)</span><input name="price" type="number" min="1" step="1" inputmode="numeric" placeholder="8400" required></label>
+                  <label class="fld"><span>Travellers</span><input name="trav" type="number" min="1" max="9" value="1" inputmode="numeric" required></label>
+                </div>
+                <label class="fld"><span>PNR <em>(optional)</em></span><input name="pnr" maxlength="10" placeholder="K9TZ4P" autocapitalize="characters"></label>
+                <p class="err" id="manualErr"></p>
+                <button class="btn primary sm" type="submit">Save booking</button>
+              </form>
+              <div class="result" id="resManual"></div>
+              <datalist id="cities"><option>Delhi</option><option>Mumbai</option><option>Goa</option><option>Bengaluru</option><option>Chennai</option><option>Kolkata</option><option>Hyderabad</option><option>Jaipur</option><option>Pune</option><option>Kochi</option></datalist>
+              <datalist id="airlines"><option>IndiGo</option><option>Air India</option><option>Akasa Air</option><option>SpiceJet</option><option>Air India Express</option><option>Vistara</option></datalist>
+            </div>
           </div>
-          <footer class="cta"><button class="btn primary" data-next>Add to analysis</button></footer>
+          <footer class="cta"><button class="btn primary" id="addToAnalysis">Add to analysis</button></footer>
         </section>
 
         <!-- 2. Alternative -->
@@ -81,7 +129,7 @@
               <div class="row"><span><i data-icon="clock"></i>Fare type</span><b>Partially refundable</b></div>
               <button class="link" id="policyToggle">View full policy →</button>
               <div class="policy-text" id="policyText">
-                <p><b>IndiGo Saver fare (extract)</b></p>
+                <p><b><span id="policyAirline">IndiGo</span> Saver fare (extract)</b></p>
                 <p>Cancellation more than 72 h before departure: ₹2,000 per passenger, or the airfare, whichever is lower.</p>
                 <p>The fee is waived if Zero Cancellation was added at booking. We couldn't confirm this from your email.</p>
                 <p>Statutory taxes are refundable. The ₹350 convenience fee paid to the booking platform may not be refunded.</p>
@@ -118,13 +166,13 @@
                 <small>per person</small>
               </div>
               <div class="card">
-                <div class="cols"><div><small>Current booking</small><b>₹8,400</b></div><div><small>Alternative fare</small><b id="aAlt">₹6,900</b></div></div>
+                <div class="cols"><div><small>Current booking</small><b id="aCur">₹8,400</b></div><div><small>Alternative fare</small><b id="aAlt">₹6,900</b></div></div>
                 <div class="row"><span>Cancellation fee (est.)</span><b class="pill red">−₹2,000</b></div>
-                <div class="row"><span>Expected refund</span><button class="pill plain" id="refundInfo">Unknown <i data-icon="help"></i></button></div>
-                <button class="row row-btn" data-next><span>Net saving (est.)</span><b class="pill amber">Unknown <i data-icon="chevR"></i></b></button>
+                <div class="row"><span>Expected refund</span><button class="pill plain" id="refundInfo"><span id="aRefund">₹0</span> <i data-icon="help"></i></button></div>
+                <button class="row row-btn" data-next><span>Net saving (est.)</span><b class="pill amber" id="aNetPill"><span id="aNet">₹0</span> <i data-icon="chevR"></i></b></button>
                 <div class="row"><span>Price last checked</span><button class="live" id="refresh"><i class="dot"></i><span id="lastChecked">Just now</span><i data-icon="refresh"></i></button></div>
               </div>
-              <div class="tip" id="refundTip">The refund depends on whether taxes and the platform's convenience fee are returned. Best case: <b id="tipBest"></b> net saving. Worst case: <b id="tipWorst"></b>.</div>
+              <div class="tip" id="refundTip"></div>
             </div>
           </div>
           <footer class="cta"><button class="btn primary" data-next id="toRec" disabled>See recommendation</button></footer>
@@ -134,9 +182,9 @@
         <section class="screen" data-screen="4">
           <header class="bar"><button class="back" data-back aria-label="Back"><i data-icon="chevL"></i></button><h2>Recommendation</h2></header>
           <div class="body">
-            <div class="note amber big">
-              <i data-icon="alert"></i>
-              <div><b>Verify refund and fees before cancelling.</b>
+            <div class="note amber big" id="recNote">
+              <i data-icon="alert" id="recIcon"></i>
+              <div><b id="recTitle">Verify refund and fees before cancelling.</b>
               <p id="recText">The alternative fare is cheaper, but your net saving depends on the refund amount and cancellation fee. We recommend checking the policy on the airline's website before going ahead.</p></div>
             </div>
             <div class="options">

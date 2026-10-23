@@ -233,6 +233,49 @@ p { margin: 0; }
 input[type="range"] { width: 100%; accent-color: var(--green); margin-bottom: 18px; }
 .mini { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
 
+
+/* ---------- Import panels ---------- */
+.panel { display: none; flex-direction: column; gap: 12px; }
+.panel.active { display: flex; animation: rise .3s var(--ease); }
+.result { display: flex; flex-direction: column; gap: 10px; }
+.result:empty { display: none; }
+.form { gap: 10px; }
+.fld { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.fld > span { font-size: .74rem; font-weight: 700; color: var(--ink-2); }
+.fld em { font-style: normal; font-weight: 500; color: var(--muted); }
+.fld input {
+  font: inherit; font-size: .9rem; color: var(--ink); width: 100%; min-width: 0;
+  padding: 10px 12px; border: 1.5px solid var(--line); border-radius: 12px; background: var(--app);
+  outline: none; transition: border-color .2s, box-shadow .2s, background .2s;
+}
+.fld input:focus { border-color: var(--green); background: #fff; box-shadow: 0 0 0 3px rgba(18, 128, 92, .12); }
+.fld input.invalid { border-color: var(--red); background: var(--red-50); }
+#pnrCode { text-transform: uppercase; letter-spacing: .12em; font-weight: 700; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.err { font-size: .78rem; color: var(--red); font-weight: 600; min-height: 0; }
+.err:empty { display: none; }
+.err.center { text-align: center; }
+.btn.sm { padding: 13px; font-size: .9rem; border-radius: 14px; }
+.or { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+.or::before, .or::after { content: ""; flex: 1; height: 1px; background: #d9e0dc; }
+.drop {
+  display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; cursor: pointer;
+  padding: 20px 16px; border: 1.5px dashed #b9c6bf; border-radius: 18px; background: #fff; transition: all .2s;
+}
+.drop:hover, .drop.over { border-color: var(--green); background: var(--green-50); }
+.drop input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.drop-ic { width: 44px; height: 44px; border-radius: 50%; background: var(--green-50); color: var(--green-700); display: grid; place-items: center; font-size: 22px; margin-bottom: 4px; }
+.drop b { font-size: .9rem; }
+.drop small { font-size: .76rem; color: var(--muted); }
+.loading { display: none; flex-direction: column; align-items: center; gap: 12px; padding: 40px 0; font-size: .86rem; color: var(--ink-2); font-weight: 600; text-align: center; }
+.loading.show { display: flex; }
+.pnr-input { display: flex; flex-direction: column; gap: 12px; }
+.pnr-input.hide { display: none; }
+.res-actions { display: flex; justify-content: center; gap: 18px; }
+.res-actions button { font-size: .8rem; font-weight: 700; color: var(--blue); }
+.file-chip { display: inline-flex; align-items: center; gap: 6px; font-size: .74rem; font-weight: 600; color: var(--ink-2); background: var(--app); padding: 4px 10px; border-radius: 999px; align-self: flex-start; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.file-chip [data-icon] { color: var(--red); }
+
 /* toast */
 .toast { position: absolute; left: 50%; bottom: 100px; transform: translate(-50%, 20px); background: var(--ink); color: #fff; padding: 10px 16px; border-radius: 999px; font-size: .82rem; font-weight: 600; opacity: 0; transition: all .3s var(--ease); z-index: 40; white-space: nowrap; pointer-events: none; }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
@@ -266,3 +309,9 @@ input[type="range"] { width: 100%; accent-color: var(--green); margin-bottom: 18
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
+.source > svg { width: 14px; height: 14px; flex: none; color: var(--green); }
+.file-chip > svg { width: 13px; height: 13px; flex: none; color: var(--red); }
+#pnrCode::placeholder { text-transform: none; letter-spacing: normal; font-weight: 400; }
+.pill.green { background: var(--green-50); color: var(--green-700); }
+.note.green { background: var(--green-50); border: 1px solid var(--green-100); color: var(--ink-2); }
+.note.green [data-icon] { color: var(--green); }
