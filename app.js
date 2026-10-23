@@ -63,6 +63,16 @@
     { airline: "Akasa Air", code: "QP 1121", ratio: 0.91, dep: "06:00", arr: "08:35", color: "orange", tag: "Earlier", seats: 2 },
     { airline: "IndiGo", code: "6E 2012", ratio: 0.89, dep: "13:30", arr: "16:05", color: "blue", tag: "Afternoon", seats: 5 },
   ];
+  // Sample airline profiles for the comparison card (illustrative, not real ratings)
+  const PROFILES = {
+    "indigo": { rating: 4.1, onTime: 84, cancel: 2000, change: 2250, refund: "Partially refundable", bag: 15, meal: "Paid", seat: "Paid" },
+    "air india": { rating: 3.7, onTime: 74, cancel: 3000, change: 2750, refund: "Partially refundable", bag: 15, meal: "Included", seat: "Free (standard)" },
+    "spicejet": { rating: 3.4, onTime: 68, cancel: 3500, change: 2500, refund: "Non-refundable", bag: 15, meal: "Paid", seat: "Paid" },
+    "akasa air": { rating: 4.0, onTime: 81, cancel: 2500, change: 2000, refund: "Partially refundable", bag: 15, meal: "Paid", seat: "Paid" },
+  };
+  const DEFAULT_PROFILE = { rating: 3.8, onTime: 76, cancel: 2500, change: 2500, refund: "Partially refundable", bag: 15, meal: "Paid", seat: "Paid" };
+  const profile = (airline) => PROFILES[airline.trim().toLowerCase()] || DEFAULT_PROFILE;
+
   let ALTS = [];
   function buildAlts() {
     ALTS = ALT_POOL
@@ -85,6 +95,7 @@
     if (n === 2) {
       $("#seatInfo").textContent = `${alt().seats} left at ${inr(alt().price)}`;
       $("#policyAirline").textContent = B().airline;
+      renderCompare();
     }
     if (n === 3 && state.analysedFor !== state.sel) startAnalysis();
     state.screen = n;
@@ -308,6 +319,48 @@
     const open = $("#policyText").classList.toggle("open");
     e.target.textContent = open ? "Hide full policy ↑" : "View full policy →";
   });
+
+  // Side-by-side comparison of the current booking and the selected alternative
+  function renderCompare() {
+    const curName = B().airline, altName = alt().airline;
+    const c = { ...profile(curName), cancel: FEE() }, a = profile(altName);
+    const REFUND_RANK = { "Non-refundable": 0, "Partially refundable": 1, "Fully refundable": 2 };
+    const free = (v) => /free|included/i.test(v) ? 1 : 0;
+    // [label, current, alternative, score fn (higher is better) or null]
+    const rows = [
+      ["Customer rating", `${c.rating}★`, `${a.rating}★`, (p) => p.rating],
+      ["On-time performance", `${c.onTime}%`, `${a.onTime}%`, (p) => p.onTime],
+      ["Cancellation fee", inr(c.cancel), inr(a.cancel), (p) => -p.cancel],
+      ["Date change fee", inr(c.change), inr(a.change), (p) => -p.change],
+      ["Refund type", c.refund, a.refund, (p) => REFUND_RANK[p.refund] ?? 1],
+      ["Checked baggage", `${c.bag} kg`, `${a.bag} kg`, (p) => p.bag],
+      ["Meal", c.meal, a.meal, (p) => free(p.meal)],
+      ["Seat selection", c.seat, a.seat, (p) => free(p.seat)],
+    ];
+    const cell = (v, win) => `<span class="${win ? "win" : ""}">${win ? svg("check") : ""}${esc(v)}</span>`;
+    const body = rows.map(([label, cv, av, score]) => {
+      const sc = score(c), sa = score(a);
+      return `<div class="cmp-row"><span>${label}</span>${cell(cv, sc > sa)}${cell(av, sa > sc)}</div>`;
+    }).join("");
+
+    // Plain-language summary of what actually differs
+    const notes = [];
+    if (a.rating !== c.rating) notes.push(`${a.rating > c.rating ? altName : curName} is rated higher by travellers.`);
+    if (Math.abs(a.onTime - c.onTime) >= 5) notes.push(`${a.onTime > c.onTime ? altName : curName} is more punctual (${Math.max(a.onTime, c.onTime)}% vs ${Math.min(a.onTime, c.onTime)}% on time).`);
+    if (a.cancel > c.cancel) notes.push(`If plans change again, cancelling ${altName} costs ${inr(a.cancel - c.cancel)} more.`);
+    if (a.cancel < c.cancel) notes.push(`${altName} is ${inr(c.cancel - a.cancel)} cheaper to cancel later.`);
+    if (a.refund !== c.refund) notes.push(`${altName}'s fare is ${a.refund.toLowerCase()}, vs ${c.refund.toLowerCase()} on your current booking.`);
+    if (free(a.meal) !== free(c.meal)) notes.push(`${free(a.meal) ? altName : curName} includes a meal.`);
+    if (free(a.seat) !== free(c.seat)) notes.push(`${free(a.seat) ? altName : curName} includes free seat selection.`);
+    if (!notes.length) notes.push("Both options have very similar policies and service.");
+
+    $("#compare").innerHTML = `
+      <b class="sub">Compare options</b>
+      <div class="cmp-row cmp-head"><span></span><span>Current<b>${esc(curName)}</b></span><span>Alternative<b>${esc(altName)}</b></span></div>
+      ${body}
+      <div class="cmp-notes"><b>Key differences</b><ul>${notes.map((n) => `<li>${esc(n)}</li>`).join("")}</ul></div>
+      <small class="cmp-foot">Ratings and punctuality are sample data for this prototype.</small>`;
+  }
 
   /* ---------- 4. Analysis ---------- */
   let analysisTimers = [];
